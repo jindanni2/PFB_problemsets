@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+
+import sys
+
+# Store input into variable name
+name = sys.argv[1]
+print("My name: ", name)
+
+
