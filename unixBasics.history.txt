@@ -1,0 +1,14 @@
+  285  git commit -m "removing oops"
+  286  git push
+  287  vi oops2
+  288  git add oops2
+  289  git commit -m "oops2"
+  290  git push
+  291  rm oops2
+  292  git add oops2
+  293  git commit -m "removing oops2"
+  294  git push
+  295  vi never
+  296  git add never
+  297  git reset never
+  300  help history
