@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import os, sys
-
+import math
 from sequence_to_kmer_list import *
 from fastq_file_to_sequence_list import *
 
@@ -29,17 +29,20 @@ def count_kmers(kmer_list):
     ##################
     ## Step 2:
     ## begin your code
+    c = "count"
+    se = "entropy"
+    NT = ["A","T","C","G"]
     for kmer in kmer_list:
         if kmer not in kmer_count_dict:
-            kmer_count_dict[kmer] = 1
+            kmer_count_dict[kmer] = {}
+            kmer_count_dict[kmer][c] = 1
+            ## Shannon entropy calculation for new kmer
+            kmer_count_dict[kmer][se] = 0
+            for nt in NT:
+                if nt in kmer:
+                    kmer_count_dict[kmer][se] += kmer.count(nt)* kmer.count(nt)/len(kmer)* math.log2(kmer.count(nt)/len(kmer))
         else:
-            kmer_count_dict[kmer] += 1
-
-
-
-
-
-
+            kmer_count_dict[kmer][c] += 1
 
     ## end your code
     ################
@@ -77,10 +80,6 @@ def main():
         all_kmers.extend(sequence_to_kmer_list(sequence,kmer_length))
     #print("Step 1 kmer list:", all_kmers)
 
-
-
-
-
     ## end your code
     #######################
 
@@ -94,14 +93,7 @@ def main():
     ## Step 3: sort unique_kmers by abundance descendingly
     ## (Note, you can run and test without first implementing Step 3)
     ## begin your code       hint: see the built-in 'sorted' method documentation
-    unique_kmers = sorted(unique_kmers, key=lambda x:kmer_count_dict[x], reverse=True)
-
-
-
-
-
-
-
+    unique_kmers = sorted(unique_kmers, key=lambda x:kmer_count_dict[x]["count"], reverse=True)
 
 
     ## end your code
@@ -110,7 +102,7 @@ def main():
     top_kmers_show = unique_kmers[0:num_top_kmers_show]
 
     for kmer in top_kmers_show:
-        print("{}: {}".format(kmer, kmer_count_dict[kmer]))
+        print("{}: {}: {}".format(kmer, kmer_count_dict[kmer]["count"], kmer_count_dict[kmer]["entropy"]))
 
     sys.exit(0)  # always good practice to indicate worked ok!
 
