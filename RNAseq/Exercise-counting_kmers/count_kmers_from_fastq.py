@@ -72,8 +72,10 @@ def main():
     ## Step 1:
     ## begin your code, populate 'all_kmers' list with the
     ## collection of kmers from all sequences
-    all_kmers = seq_list_from_fastq_file(fastq_filename)
-
+    all_sequences = seq_list_from_fastq_file(fastq_filename)
+    for sequence in all_sequences:
+        all_kmers.extend(sequence_to_kmer_list(sequence,kmer_length))
+    #print("Step 1 kmer list:", all_kmers)
 
 
 
